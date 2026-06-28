@@ -289,7 +289,11 @@ footer{text-align:center;margin-top:32px;}
   <img id="lightbox-img" src="" alt="foto ampliada">
 </div>
 
-<footer><span class="footer-link" onclick="reiniciar()">reiniciar todos los datos</span></footer>
+<footer>
+  <span class="footer-link" onclick="descargarBackup()">⬇ descargar backup</span>
+  &nbsp;·&nbsp;
+  <span class="footer-link" onclick="reiniciar()">reiniciar todos los datos</span>
+</footer>
 </div>
 
 <script>
@@ -525,7 +529,36 @@ function renderChain(){
   document.getElementById('chain-start').textContent=start.toLocaleDateString('es-AR',{day:'2-digit',month:'short'});
 }
 
-async function reiniciar(){
+async function descargarBackup(){
+  try{
+    // Traer todo de Firebase
+    const estadoDoc=await _getDoc(_doc(_db,'lectura','estado'));
+    const citasSnap=await _getDocs(_col(_db,'lectura_citas'));
+    const citas=[];
+    citasSnap.forEach(d=>citas.push({id:d.id,...d.data()}));
+    const backup={
+      fecha_backup: new Date().toISOString(),
+      estado: estadoDoc.exists()?estadoDoc.data():state,
+      citas
+    };
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`lectura-backup-${todayStr()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }catch(e){
+    // Fallback: backup del estado local
+    const blob=new Blob([JSON.stringify({fecha_backup:new Date().toISOString(),estado:state,citas:state.citas||[]},null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`lectura-backup-${todayStr()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+}
   if(!confirm('¿Seguro? Se borra todo.'))return;
   try{
     await _setDoc(_doc(_db,'lectura','estado'),{libro:null,dias:{},historial:[]});
