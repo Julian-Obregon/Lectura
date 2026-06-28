@@ -559,6 +559,8 @@ async function descargarBackup(){
     URL.revokeObjectURL(url);
   }
 }
+
+async function reiniciar(){
   if(!confirm('¿Seguro? Se borra todo.'))return;
   try{
     await _setDoc(_doc(_db,'lectura','estado'),{libro:null,dias:{},historial:[]});
