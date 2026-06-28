@@ -294,13 +294,61 @@ footer{text-align:center;margin-top:32px;}
 
 <script>
 const KEY='cadena-lectura-v2';
-function load(){try{const r=localStorage.getItem(KEY);if(r)return JSON.parse(r);}catch(e){}return{libro:null,dias:{},citas:[],historial:[]};}
-function save(){localStorage.setItem(KEY,JSON.stringify(state));}
-let state=load();
+let state={libro:null,dias:{},citas:[],historial:[]};
 let fotoTempBase64=null;
+let _db=null,_col=null,_getDocs=null,_addDoc=null,_deleteDoc=null,_doc=null,_setDoc=null,_getDoc=null;
 
 function todayStr(){return new Date().toISOString().slice(0,10);}
 function fmtMes(m){if(!m)return'';const[y,mo]=m.split('-');const ms=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return ms[Number(mo)-1]+' '+y;}
+
+// Firebase init
+(async()=>{
+  const {initializeApp}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+  const {getFirestore,collection,getDocs,addDoc,deleteDoc,doc,setDoc,getDoc}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+  const app=initializeApp({
+    apiKey:"AIzaSyBDM8ljpyP8CFpE82ahZmcdSsjjilKTT2k",
+    authDomain:"renta-de-bonos.firebaseapp.com",
+    projectId:"renta-de-bonos",
+    storageBucket:"renta-de-bonos.firebasestorage.app",
+    messagingSenderId:"870288925496",
+    appId:"1:870288925496:web:7979e7a6c60334aad197cd"
+  });
+  _db=getFirestore(app);
+  _col=collection;_getDocs=getDocs;_addDoc=addDoc;_deleteDoc=deleteDoc;_doc=doc;_setDoc=setDoc;_getDoc=getDoc;
+  await cargarDesdeFirebase();
+})();
+
+async function cargarDesdeFirebase(){
+  try{
+    // Cargar estado principal (libro + dias + historial)
+    const estadoDoc=await _getDoc(_doc(_db,'lectura','estado'));
+    if(estadoDoc.exists()) state={...state,...estadoDoc.data()};
+
+    // Cargar citas
+    const citasSnap=await _getDocs(_col(_db,'lectura_citas'));
+    state.citas=[];
+    citasSnap.forEach(d=>state.citas.push({id:d.id,...d.data()}));
+    state.citas.sort((a,b)=>b.fecha?.localeCompare(a.fecha||'')||0);
+
+    render();
+  }catch(e){
+    console.error('Firebase error:',e);
+    // Fallback a localStorage
+    try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r);}catch(e2){}
+    render();
+  }
+}
+
+async function save(){
+  try{
+    await _setDoc(_doc(_db,'lectura','estado'),{
+      libro:state.libro,dias:state.dias,historial:state.historial
+    });
+    localStorage.setItem(KEY,JSON.stringify(state)); // backup local
+  }catch(e){
+    localStorage.setItem(KEY,JSON.stringify(state));
+  }
+}
 
 /* SETUP */
 function guardarSetup(){
@@ -366,21 +414,32 @@ function openLightbox(src){
 function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
 
 /* CITAS */
-function guardarCita(){
+async function guardarCita(){
   const texto=document.getElementById('in-cita').value.trim();
   const foto=fotoTempBase64;
   if(!texto&&!foto){alert('Escribí algo o subí una foto');return;}
-  state.citas.unshift({texto,pag:document.getElementById('in-cita-pag').value.trim(),libro:state.libro?.titulo||'',fecha:todayStr(),foto:foto||null});
+  const cita={texto,pag:document.getElementById('in-cita-pag').value.trim(),libro:state.libro?.titulo||'',fecha:todayStr(),foto:foto||null};
+  try{
+    const ref=await _addDoc(_col(_db,'lectura_citas'),cita);
+    state.citas.unshift({id:ref.id,...cita});
+  }catch(e){
+    state.citas.unshift(cita);
+  }
   document.getElementById('in-cita').value='';
   document.getElementById('in-cita-pag').value='';
-  clearFoto();save();renderCitas();
+  clearFoto();renderCitas();
 }
-function borrarCita(i){if(!confirm('¿Borrar esta entrada?'))return;state.citas.splice(i,1);save();renderCitas();}
+async function borrarCita(id){
+  if(!confirm('¿Borrar esta entrada?'))return;
+  try{await _deleteDoc(_doc(_db,'lectura_citas',id));}catch(e){}
+  state.citas=state.citas.filter(c=>c.id!==id);
+  renderCitas();
+}
 
 function renderCitas(){
   const el=document.getElementById('citas-lista');if(!el)return;
   if(!state.citas.length){el.innerHTML='<div class="empty">Todavía no guardaste nada.</div>';return;}
-  el.innerHTML=state.citas.map((c,i)=>`
+  el.innerHTML=state.citas.map((c)=>`
     <div class="cita-item">
       <div class="cita-body">
         <div class="cita-bar"></div>
@@ -389,7 +448,7 @@ function renderCitas(){
           ${c.texto?`<div class="cita-text">${c.texto}</div>`:''}
           <div class="cita-footer">
             <div class="cita-ref">${c.libro||''}${c.pag?' · p.'+c.pag:''}${c.fecha?' · '+c.fecha:''}</div>
-            <button class="cita-del" onclick="borrarCita(${i})">✕</button>
+            <button class="cita-del" onclick="borrarCita('${c.id||''}')">✕</button>
           </div>
         </div>
       </div>
@@ -449,7 +508,18 @@ function renderChain(){
   document.getElementById('chain-start').textContent=start.toLocaleDateString('es-AR',{day:'2-digit',month:'short'});
 }
 
-function reiniciar(){if(confirm('¿Seguro? Se borra todo.')){localStorage.removeItem(KEY);state=load();render();document.getElementById('setup-banner').classList.remove('hidden');}}
+async function reiniciar(){
+  if(!confirm('¿Seguro? Se borra todo.'))return;
+  try{
+    await _setDoc(_doc(_db,'lectura','estado'),{libro:null,dias:{},historial:[]});
+    const snap=await _getDocs(_col(_db,'lectura_citas'));
+    for(const d of snap.docs) await _deleteDoc(_doc(_db,'lectura_citas',d.id));
+  }catch(e){}
+  localStorage.removeItem(KEY);
+  state={libro:null,dias:{},citas:[],historial:[]};
+  render();
+  document.getElementById('setup-banner').classList.remove('hidden');
+}
 
 /* RENDER */
 function render(){
@@ -513,18 +583,10 @@ function render(){
   renderChain();renderCitas();renderHist();
 }
 
-// Pre-llenar Galeano si no hay nada
-if(!state.libro&&!state.historial.length){
-  document.getElementById('in-titulo').value='La canción de nosotros';
-  document.getElementById('in-autor').value='Eduardo Galeano';
-}
-
 // Service Worker
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(e=>console.log('SW:',e));});
 }
-
-render();
 </script>
 </body>
 </html>
