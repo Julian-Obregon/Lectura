@@ -9,23 +9,18 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Lectura">
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred=window.OneSignalDeferred||[];
   OneSignalDeferred.push(async function(OneSignal){
-    try{
-      await OneSignal.init({
-        appId:"f9f96c29-e81f-4333-8520-81ef5592ded5",
-        notifyButton:{enable:true},
-        serviceWorkerParam:{scope:"/cadena-lectura/"},
-        serviceWorkerPath:"sw.js",
-      });
-    }catch(e){
-      console.log('OneSignal no disponible:',e);
-    }
+    await OneSignal.init({
+      appId:"f9f96c29-e81f-4333-8520-81ef5592ded5",
+      notifyButton:{enable:true},
+      serviceWorkerParam:{scope:"/cadena-lectura/"},
+      serviceWorkerPath:"sw.js",
+    });
   });
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -677,4 +672,9 @@ function render(){
 
   const hechoHoy=!!state.dias[todayStr()];
   const btn=document.getElementById('btn-hoy');
-  document.getElementBy
+  document.getElementById('hoy-done-display').classList.toggle('hidden',!hechoHoy);
+  document.getElementById('hoy-input-section').classList.toggle('hidden',hechoHoy);
+  document.getElementById('hoy-box').classList.toggle('done',hechoHoy);
+  btn.textContent=hechoHoy?'Hecho ✓ (tocá para deshacer)':'Marcar día ✓';
+  btn.classList.toggle('done',hechoHoy);
+  if(hechoHoy)document.getElementById('hoy-num').innerHTML=state.dias[todayStr()]+'<span>pági
