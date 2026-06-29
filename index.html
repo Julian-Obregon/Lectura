@@ -300,7 +300,25 @@ footer{text-align:center;margin-top:32px;}
 const KEY='cadena-lectura-v2';
 let state={libro:null,dias:{},citas:[],historial:[]};
 let fotoTempBase64=null;
+let fotoTempUrl=null; // URL de Cloudinary después de subir
 let _db=null,_col=null,_getDocs=null,_addDoc=null,_deleteDoc=null,_doc=null,_setDoc=null,_getDoc=null;
+
+// Cloudinary config
+const CLOUDINARY={
+  cloudName:'dwzvkixnt',
+  uploadPreset:'lectura_unsigned' // preset sin firma — lo creamos abajo
+};
+
+async function subirFotoCloudinary(file){
+  const formData=new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY.uploadPreset);
+  formData.append('folder','lectura');
+  const resp=await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY.cloudName}/image/upload`,{method:'POST',body:formData});
+  if(!resp.ok) throw new Error('Error subiendo foto');
+  const data=await resp.json();
+  return data.secure_url;
+}
 
 function todayStr(){return new Date().toISOString().slice(0,10);}
 function fmtMes(m){if(!m)return'';const[y,mo]=m.split('-');const ms=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return ms[Number(mo)-1]+' '+y;}
@@ -394,19 +412,42 @@ function marcarHoy(){
 }
 
 /* FOTO */
+function comprimirFoto(file, maxWidth=1200, quality=0.85){
+  return new Promise((resolve)=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement('canvas');
+        let w=img.width,h=img.height;
+        if(w>maxWidth){h=Math.round(h*maxWidth/w);w=maxWidth;}
+        canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        canvas.toBlob(blob=>resolve(blob),'image/jpeg',quality);
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 function previewFoto(ev){
   const f=ev.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    fotoTempBase64=e.target.result;
+  fotoTempBase64=null;fotoTempUrl=null;
+  // Preview local inmediato
+  const reader=new FileReader();
+  reader.onload=e=>{
+    fotoTempBase64=e.target.result; // solo para preview
     const img=document.getElementById('foto-preview');
     img.src=fotoTempBase64;img.classList.remove('hidden');
     document.getElementById('foto-clear').classList.remove('hidden');
   };
-  r.readAsDataURL(f);
+  reader.readAsDataURL(f);
+  // Guardar el file para subir a Cloudinary al guardar
+  previewFoto._file=f;
 }
 function clearFoto(){
-  fotoTempBase64=null;
+  fotoTempBase64=null;fotoTempUrl=null;previewFoto._file=null;
   document.getElementById('foto-preview').classList.add('hidden');
   document.getElementById('foto-clear').classList.add('hidden');
   document.getElementById('in-foto-upload').value='';
@@ -420,9 +461,27 @@ function closeLightbox(){document.getElementById('lightbox').classList.remove('o
 /* CITAS */
 async function guardarCita(){
   const texto=document.getElementById('in-cita').value.trim();
-  const foto=fotoTempBase64;
-  if(!texto&&!foto){alert('Escribí algo o subí una foto');return;}
-  const cita={texto,pag:document.getElementById('in-cita-pag').value.trim(),libro:state.libro?.titulo||'',fecha:todayStr(),foto:foto||null};
+  const file=previewFoto._file;
+  if(!texto&&!file){alert('Escribí algo o subí una foto');return;}
+
+  // Mostrar estado de carga
+  const btn=document.querySelector('.btn-violet.btn-sm[onclick="guardarCita()"]');
+  if(btn){btn.textContent='Subiendo...';btn.disabled=true;}
+
+  let fotoUrl=null;
+  if(file){
+    try{
+      const blob=await comprimirFoto(file);
+      const compressedFile=new File([blob],file.name,{type:'image/jpeg'});
+      fotoUrl=await subirFotoCloudinary(compressedFile);
+    }catch(e){
+      alert('Error subiendo la foto. Revisá tu conexión.');
+      if(btn){btn.textContent='Guardar';btn.disabled=false;}
+      return;
+    }
+  }
+
+  const cita={texto,pag:document.getElementById('in-cita-pag').value.trim(),libro:state.libro?.titulo||'',fecha:todayStr(),foto:fotoUrl||null};
   try{
     const ref=await _addDoc(_col(_db,'lectura_citas'),cita);
     state.citas.unshift({id:ref.id,...cita});
@@ -431,7 +490,9 @@ async function guardarCita(){
   }
   document.getElementById('in-cita').value='';
   document.getElementById('in-cita-pag').value='';
-  clearFoto();renderCitas();
+  clearFoto();
+  if(btn){btn.textContent='Guardar';btn.disabled=false;}
+  renderCitas();
 }
 async function borrarCita(id){
   if(!confirm('¿Borrar esta entrada?'))return;
@@ -616,29 +677,4 @@ function render(){
   document.getElementById('hoy-box').classList.toggle('done',hechoHoy);
   btn.textContent=hechoHoy?'Hecho ✓ (tocá para deshacer)':'Marcar día ✓';
   btn.classList.toggle('done',hechoHoy);
-  if(hechoHoy)document.getElementById('hoy-num').innerHTML=state.dias[todayStr()]+'<span>páginas leídas hoy</span>';
-
-  const note=document.getElementById('hoy-note');
-  if(r.actual===0&&r.total>0)note.textContent='Se cortó la cadena. Empezás una nueva hoy.';
-  else if(r.actual>0)note.textContent='Vas bien. No dejes pasar dos días seguidos.';
-  else note.textContent='El primer día es hoy.';
-
-  document.getElementById('streak-num').innerHTML=r.actual+'<span>días seguidos sin cortar</span>';
-  document.getElementById('s-racha').textContent=r.actual;
-  document.getElementById('s-mejor').textContent=r.mejor;
-  document.getElementById('s-total').textContent=r.total;
-  document.getElementById('s-pags').textContent=paginasMes();
-
-  // Pre-fill libro en citas
-  if(state.libro)document.getElementById('in-cita-libro').value=state.libro.titulo;
-
-  renderChain();renderCitas();renderHist();
-}
-
-// Service Worker
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(e=>console.log('SW:',e));});
-}
-</script>
-</body>
-</html>
+  if(hechoHoy)document.getElementById('hoy-num').innerHTML=state.dias[todayStr()]+'<span>pági
