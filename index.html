@@ -18,7 +18,7 @@
     await OneSignal.init({
       appId:"f9f96c29-e81f-4333-8520-81ef5592ded5",
       notifyButton:{enable:true},
-      serviceWorkerParam:{scope:"/cadena-lectura/"},
+      serviceWorkerParam:{scope:"/Lectura/"},
       serviceWorkerPath:"sw.js",
     });
   });
@@ -41,8 +41,6 @@
 body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;line-height:1.5;}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 .wrap{max-width:860px;margin:0 auto;padding:28px 20px 80px;}
-
-/* HEADER */
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
 .brand{display:flex;align-items:center;gap:12px;}
 .brand-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--violet),var(--violet-dim));display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -51,14 +49,12 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .status-pill{font-family:var(--font-mono);font-size:11px;padding:7px 13px;border-radius:20px;background:var(--surface);border:1px solid var(--border);color:var(--text-dim);display:flex;align-items:center;gap:7px;white-space:nowrap;}
 .status-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--muted2);flex-shrink:0;}
 .status-pill.active .dot{background:var(--violet);box-shadow:0 0 8px var(--violet);}
-
-/* SETUP */
 .setup-banner{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 24px;margin-bottom:22px;}
 .setup-banner h2{font-family:var(--font-display);font-size:16px;margin-bottom:4px;}
 .setup-banner p{font-size:13px;color:var(--muted);margin-bottom:16px;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:580px){.grid2{grid-template-columns:1fr;}}
-.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-family:var(--font-mono);letter-spacing:0.03em;}
+.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-family:var(--font-mono);}
 .field input{width:100%;background:var(--bg-elev);border:1px solid var(--border);border-radius:9px;padding:10px 12px;color:var(--text);font-family:var(--font-body);font-size:13.5px;}
 .field input:focus{outline:none;border-color:var(--violet);}
 .btn{font-family:var(--font-body);font-weight:600;font-size:13px;padding:10px 18px;border-radius:9px;border:1px solid transparent;cursor:pointer;transition:all .15s;}
@@ -68,8 +64,6 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .btn-ghost:hover{background:var(--surface2);}
 .btn-sm{padding:7px 12px;font-size:12px;}
 .btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
-
-/* HERO */
 .hero{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px 24px 20px;margin-bottom:20px;}
 .hero-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
 .hero-title{font-family:var(--font-display);font-size:14px;color:var(--muted);font-weight:500;}
@@ -81,15 +75,11 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .link.today{border-color:var(--violet);box-shadow:0 0 0 2px var(--violet-soft);}
 .link.miss{background:var(--red-soft);border-color:var(--red);}
 .chain-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted2);font-family:var(--font-mono);margin-top:6px;}
-
-/* GRID */
 .grid-main{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-bottom:18px;}
 @media(max-width:680px){.grid-main{grid-template-columns:1fr;}}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px;}
 .card-title{font-family:var(--font-display);font-size:14.5px;font-weight:600;margin-bottom:3px;}
 .card-sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
-
-/* LIBRO */
 .libro-titulo{font-family:var(--font-display);font-size:17px;font-weight:700;line-height:1.2;margin-bottom:2px;}
 .libro-autor{font-size:11.5px;color:var(--muted);font-family:var(--font-mono);margin-bottom:14px;}
 .progreso-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px;}
@@ -98,8 +88,6 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .pag-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
 .pag-row input{width:110px;background:var(--bg-elev);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-family:var(--font-mono);font-size:13px;text-align:center;}
 .pag-row input:focus{outline:none;border-color:var(--violet);}
-
-/* HOY */
 .hoy-box{background:var(--bg-elev);border:1px solid var(--border-soft);border-radius:12px;padding:14px;}
 .hoy-box.done{border-color:var(--violet);background:var(--violet-soft);}
 .hoy-label{font-size:10.5px;color:var(--muted);font-family:var(--font-mono);letter-spacing:0.04em;margin-bottom:8px;}
@@ -110,31 +98,21 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .check-btn{width:100%;background:var(--violet);color:#0F0920;border:none;border-radius:9px;padding:11px;font-weight:700;font-size:13.5px;cursor:pointer;font-family:var(--font-body);}
 .check-btn:hover{background:#BBA4FF;}
 .check-btn.done{background:var(--surface2);color:var(--violet);}
-
-/* STATS */
 .stat-row{display:flex;gap:10px;margin-bottom:10px;}
 .stat-box{flex:1;background:var(--bg-elev);border-radius:11px;padding:12px;text-align:center;}
 .stat-num{font-family:var(--font-mono);font-size:20px;font-weight:600;color:var(--violet);}
 .stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;}
 .muted-note{font-size:12px;color:var(--muted2);margin-top:10px;line-height:1.6;}
-
-/* FRASES */
 .cita-form{background:var(--bg-elev);border:1px solid var(--border-soft);border-radius:12px;padding:14px;margin-bottom:14px;}
 .cita-form input[type=text]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-family:var(--font-body);font-size:13.5px;margin-bottom:8px;}
-.cita-form input[type=text]:focus{outline:none;border-color:var(--violet);}
 .cita-form-bottom{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
 .cita-form-bottom input[type=text]{flex:1;min-width:80px;margin-bottom:0;}
 .pag-input{max-width:70px!important;}
-
-/* UPLOAD FOTO */
 .foto-upload{display:flex;align-items:center;gap:8px;}
 .foto-upload-btn{display:flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);padding:7px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-family:var(--font-body);font-weight:500;}
 .foto-upload-btn:hover{border-color:var(--violet);color:var(--violet);}
 .foto-preview{width:36px;height:36px;border-radius:6px;object-fit:cover;border:1px solid var(--border);}
 .foto-clear{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:2px 5px;}
-.foto-clear:hover{color:var(--red);}
-
-/* CITA ITEM */
 .cita-item{padding:14px 0;border-bottom:1px solid var(--border-soft);}
 .cita-item:last-child{border-bottom:none;}
 .cita-body{display:flex;gap:12px;align-items:flex-start;}
@@ -142,13 +120,9 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .cita-content{flex:1;}
 .cita-text{font-size:13.5px;color:var(--text-dim);line-height:1.6;margin-bottom:6px;}
 .cita-foto{max-width:100%;border-radius:10px;margin-bottom:8px;border:1px solid var(--border);cursor:pointer;}
-.cita-foto:hover{opacity:.9;}
 .cita-footer{display:flex;justify-content:space-between;align-items:center;}
 .cita-ref{font-family:var(--font-mono);font-size:10.5px;color:var(--muted2);}
 .cita-del{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:12px;padding:2px 6px;}
-.cita-del:hover{color:var(--red);}
-
-/* HISTORIAL */
 .hist-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-soft);}
 .hist-item:last-child{border-bottom:none;}
 .hist-num{font-family:var(--font-mono);font-size:10.5px;color:var(--muted2);width:20px;flex-shrink:0;}
@@ -156,18 +130,15 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 .hist-mes{font-family:var(--font-mono);font-size:10px;color:var(--violet);background:var(--violet-soft);padding:3px 8px;border-radius:10px;white-space:nowrap;}
 .hist-add{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
 .hist-add input{flex:1;min-width:80px;background:var(--bg-elev);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:12.5px;}
-.hist-add input:focus{outline:none;border-color:var(--violet);}
-
-/* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;cursor:zoom-out;}
 .lightbox.open{display:flex;}
 .lightbox img{max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain;}
-
 .empty{text-align:center;padding:24px;color:var(--muted2);font-size:12.5px;}
 .hidden{display:none!important;}
 footer{text-align:center;margin-top:32px;}
-.footer-link{font-size:11px;color:var(--muted2);font-family:var(--font-mono);cursor:pointer;}
+.footer-link{font-size:11px;color:var(--muted2);font-family:var(--font-mono);cursor:pointer;margin:0 6px;}
 .footer-link:hover{color:var(--muted);}
+.saving-indicator{position:fixed;bottom:16px;right:16px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:11px;font-family:var(--font-mono);color:var(--muted);display:none;}
 </style>
 </head>
 <body>
@@ -180,16 +151,15 @@ footer{text-align:center;margin-top:32px;}
     </div>
     <div class="brand-text">
       <h1 id="header-titulo">Lectura</h1>
-      <p id="header-sub">configurá tu libro</p>
+      <p id="header-sub">cargando...</p>
     </div>
   </div>
-  <div class="status-pill" id="status-pill"><span class="dot"></span><span id="status-text">sin configurar</span></div>
+  <div class="status-pill" id="status-pill"><span class="dot"></span><span id="status-text">cargando</span></div>
 </header>
 
-<!-- SETUP -->
-<div class="setup-banner" id="setup-banner">
+<div class="setup-banner hidden" id="setup-banner">
   <h2>¿Qué estás leyendo?</h2>
-  <p>Cargá el libro y en qué página estás. El título va a aparecer como nombre de la app.</p>
+  <p>Cargá el libro y en qué página estás.</p>
   <div class="grid2">
     <div class="field" style="grid-column:1/-1"><label>Título</label><input type="text" id="in-titulo" placeholder="La canción de nosotros"></div>
     <div class="field" style="grid-column:1/-1"><label>Autor/a</label><input type="text" id="in-autor" placeholder="Eduardo Galeano"></div>
@@ -197,26 +167,20 @@ footer{text-align:center;margin-top:32px;}
     <div class="field"><label>Total de páginas</label><input type="number" id="in-pag-total" placeholder="200" min="1"></div>
   </div>
   <div class="btn-row">
-    <button class="btn btn-violet" onclick="guardarSetup()">Activar</button>
+    <button class="btn btn-violet" id="btn-activar">Activar</button>
   </div>
 </div>
 
-<!-- HERO -->
 <div class="hero hidden" id="hero-section">
   <div class="hero-top">
-    <div>
-      <div class="hero-title">Racha de lectura</div>
-      <div class="hero-streak" id="streak-num">0<span>días seguidos sin cortar</span></div>
-    </div>
-    <button class="btn btn-ghost btn-sm" onclick="abrirConfig()">⚙ editar libro</button>
+    <div><div class="hero-title">Racha de lectura</div><div class="hero-streak" id="streak-num">0<span>días seguidos sin cortar</span></div></div>
+    <button class="btn btn-ghost btn-sm" id="btn-editar-libro">⚙ editar libro</button>
   </div>
   <div class="chain" id="chain-container"></div>
   <div class="chain-labels"><span id="chain-start"></span><span>Hoy</span></div>
 </div>
 
-<!-- GRID PRINCIPAL -->
 <div class="grid-main hidden" id="main-grid">
-  <!-- LIBRO + HOY -->
   <div class="card">
     <div class="card-title">Libro actual</div>
     <div class="card-sub">Actualizá la página cuando termines de leer hoy.</div>
@@ -226,8 +190,8 @@ footer{text-align:center;margin-top:32px;}
     <div class="progreso-track"><div class="progreso-fill" id="disp-barra" style="width:0%"></div></div>
     <div class="pag-row">
       <input type="number" id="in-pag-nueva" placeholder="Pág. actual" min="0">
-      <button class="btn btn-ghost btn-sm" onclick="actualizarPag()">Actualizar</button>
-      <button class="btn btn-ghost btn-sm" onclick="terminarLibro()">Terminé</button>
+      <button class="btn btn-ghost btn-sm" id="btn-actualizar">Actualizar</button>
+      <button class="btn btn-ghost btn-sm" id="btn-termine">Terminé</button>
     </div>
     <div class="hoy-box" id="hoy-box">
       <div class="hoy-label">PÁGINAS HOY</div>
@@ -235,12 +199,11 @@ footer{text-align:center;margin-top:32px;}
       <div id="hoy-input-section">
         <input type="number" class="hoy-input" id="in-pags-hoy" placeholder="¿Cuántas páginas leíste hoy?" min="1">
       </div>
-      <button class="check-btn" id="btn-hoy" onclick="marcarHoy()">Marcar día ✓</button>
+      <button class="check-btn" id="btn-hoy">Marcar día ✓</button>
     </div>
     <div class="muted-note" id="hoy-note"></div>
   </div>
 
-  <!-- STATS + HISTORIAL -->
   <div>
     <div class="card" style="margin-bottom:18px">
       <div class="card-title">Estadísticas</div>
@@ -250,326 +213,268 @@ footer{text-align:center;margin-top:32px;}
     </div>
     <div class="card">
       <div class="card-title">Libros terminados</div>
-      <div id="hist-lista"><div class="empty">Todavía ninguno — viene.</div></div>
+      <div id="hist-lista"><div class="empty">Cargando...</div></div>
       <div class="hist-add">
         <input type="text" id="in-hist-t" placeholder="Título...">
         <input type="text" id="in-hist-a" placeholder="Autor...">
-        <button class="btn btn-ghost btn-sm" onclick="agregarHist()">+ Agregar</button>
+        <button class="btn btn-ghost btn-sm" id="btn-agregar-hist">+ Agregar</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- FRASES + FOTOS -->
 <div class="card hidden" id="citas-section">
   <div class="card-title">Frases y páginas</div>
-  <div class="card-sub">Anotá una frase o subí una foto de la página que te impactó.</div>
+  <div class="card-sub">Anotá una frase o subí una foto de la página que te impactó. Las fotos se suben a Cloudinary.</div>
   <div class="cita-form">
     <input type="text" id="in-cita" placeholder="Escribí una frase o idea del libro...">
     <div class="cita-form-bottom">
-      <input type="text" id="in-cita-libro" placeholder="Libro (auto)" class="hidden">
       <input type="text" id="in-cita-pag" placeholder="Página" class="pag-input">
       <div class="foto-upload">
         <label class="foto-upload-btn" for="in-foto-upload">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           Foto
         </label>
-        <input type="file" id="in-foto-upload" accept="image/*" class="hidden" onchange="previewFoto(event)">
+        <input type="file" id="in-foto-upload" accept="image/*" class="hidden">
         <img id="foto-preview" class="foto-preview hidden" alt="preview">
-        <button id="foto-clear" class="foto-clear hidden" onclick="clearFoto()">✕</button>
+        <button id="foto-clear" class="foto-clear hidden">✕</button>
       </div>
-      <button class="btn btn-violet btn-sm" onclick="guardarCita()">Guardar</button>
+      <button class="btn btn-violet btn-sm" id="btn-guardar-cita">Guardar</button>
     </div>
   </div>
   <div id="citas-lista"><div class="empty">Todavía no guardaste nada.</div></div>
 </div>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lightbox-img" src="" alt="foto ampliada">
-</div>
+<div class="lightbox" id="lightbox"><img id="lightbox-img" src="" alt="foto ampliada"></div>
 
 <footer>
-  <span class="footer-link" onclick="descargarBackup()">⬇ descargar backup</span>
-  &nbsp;·&nbsp;
-  <span class="footer-link" onclick="reiniciar()">reiniciar todos los datos</span>
+  <span class="footer-link" id="btn-backup">⬇ descargar backup</span>
+  <span class="footer-link" id="btn-reiniciar">reiniciar todos los datos</span>
 </footer>
 </div>
+<div class="saving-indicator" id="saving-indicator">guardando...</div>
 
-<script>
-const KEY='cadena-lectura-v2';
-let state={libro:null,dias:{},citas:[],historial:[]};
-let fotoTempBase64=null;
-let fotoTempUrl=null; // URL de Cloudinary después de subir
-let _db=null,_col=null,_getDocs=null,_addDoc=null,_deleteDoc=null,_doc=null,_setDoc=null,_getDoc=null;
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-// Cloudinary config
-const CLOUDINARY={
-  cloudName:'dwzvkixnt',
-  uploadPreset:'lectura_unsigned' // preset sin firma — lo creamos abajo
-};
+const FB = initializeApp({
+  apiKey:"AIzaSyBDM8ljpyP8CFpE82ahZmcdSsjjilKTT2k",
+  authDomain:"renta-de-bonos.firebaseapp.com",
+  projectId:"renta-de-bonos",
+  storageBucket:"renta-de-bonos.firebasestorage.app",
+  messagingSenderId:"870288925496",
+  appId:"1:870288925496:web:7979e7a6c60334aad197cd"
+});
+const db = getFirestore(FB);
 
-async function subirFotoCloudinary(file){
-  const formData=new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY.uploadPreset);
-  formData.append('folder','lectura');
-  const resp=await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY.cloudName}/image/upload`,{method:'POST',body:formData});
-  if(!resp.ok) throw new Error('Error subiendo foto');
-  const data=await resp.json();
-  return data.secure_url;
-}
+const CLOUDINARY = { cloudName:'dwzvkixnt', uploadPreset:'lectura_unsigned' };
 
-function todayStr(){return new Date().toISOString().slice(0,10);}
-function fmtMes(m){if(!m)return'';const[y,mo]=m.split('-');const ms=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];return ms[Number(mo)-1]+' '+y;}
+let state = { libro:null, dias:{}, historial:[] };
+let citas = [];
+let fotoFile = null;
 
-// Firebase init
-(async()=>{
-  const {initializeApp}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
-  const {getFirestore,collection,getDocs,addDoc,deleteDoc,doc,setDoc,getDoc}=await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
-  const app=initializeApp({
-    apiKey:"AIzaSyBDM8ljpyP8CFpE82ahZmcdSsjjilKTT2k",
-    authDomain:"renta-de-bonos.firebaseapp.com",
-    projectId:"renta-de-bonos",
-    storageBucket:"renta-de-bonos.firebasestorage.app",
-    messagingSenderId:"870288925496",
-    appId:"1:870288925496:web:7979e7a6c60334aad197cd"
-  });
-  _db=getFirestore(app);
-  _col=collection;_getDocs=getDocs;_addDoc=addDoc;_deleteDoc=deleteDoc;_doc=doc;_setDoc=setDoc;_getDoc=getDoc;
-  await cargarDesdeFirebase();
-})();
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function fmtMes(m){ if(!m)return''; const[y,mo]=m.split('-'); const ms=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']; return ms[Number(mo)-1]+' '+y; }
 
-async function cargarDesdeFirebase(){
+// ===== FIREBASE =====
+async function cargar(){
   try{
-    // Cargar estado principal (libro + dias + historial)
-    const estadoDoc=await _getDoc(_doc(_db,'lectura','estado'));
-    if(estadoDoc.exists()) state={...state,...estadoDoc.data()};
-
-    // Cargar citas
-    const citasSnap=await _getDocs(_col(_db,'lectura_citas'));
-    state.citas=[];
-    citasSnap.forEach(d=>state.citas.push({id:d.id,...d.data()}));
-    state.citas.sort((a,b)=>b.fecha?.localeCompare(a.fecha||'')||0);
-
-    render();
+    const snap = await getDoc(doc(db,'lectura','estado'));
+    if(snap.exists()) state = {...state, ...snap.data()};
+    const citasSnap = await getDocs(collection(db,'lectura_citas'));
+    citas = [];
+    citasSnap.forEach(d => citas.push({id:d.id,...d.data()}));
+    citas.sort((a,b) => (b.fecha||'').localeCompare(a.fecha||''));
   }catch(e){
-    console.error('Firebase error:',e);
-    // Fallback a localStorage
-    try{const r=localStorage.getItem(KEY);if(r)state=JSON.parse(r);}catch(e2){}
-    render();
+    try{ const r=localStorage.getItem('cadena-lectura-v2'); if(r){ const d=JSON.parse(r); state=d; citas=d.citas||[]; } }catch(e2){}
   }
+  render();
 }
+
+function showSaving(){ const el=document.getElementById('saving-indicator'); el.style.display='block'; setTimeout(()=>el.style.display='none',1500); }
 
 async function save(){
+  showSaving();
   try{
-    await _setDoc(_doc(_db,'lectura','estado'),{
-      libro:state.libro,dias:state.dias,historial:state.historial
-    });
-    localStorage.setItem(KEY,JSON.stringify(state)); // backup local
-  }catch(e){
-    localStorage.setItem(KEY,JSON.stringify(state));
-  }
+    await setDoc(doc(db,'lectura','estado'), { libro:state.libro, dias:state.dias, historial:state.historial });
+    localStorage.setItem('cadena-lectura-v2', JSON.stringify({...state, citas}));
+  }catch(e){ localStorage.setItem('cadena-lectura-v2', JSON.stringify({...state, citas})); }
 }
 
-/* SETUP */
-function guardarSetup(){
-  const titulo=document.getElementById('in-titulo').value.trim();
-  if(!titulo){alert('Ponele un título');return;}
-  state.libro={titulo,autor:document.getElementById('in-autor').value.trim(),pagActual:Number(document.getElementById('in-pag-actual').value)||0,pagTotal:Number(document.getElementById('in-pag-total').value)||0};
-  save();render();
-}
-function abrirConfig(){
-  if(state.libro){document.getElementById('in-titulo').value=state.libro.titulo;document.getElementById('in-autor').value=state.libro.autor;document.getElementById('in-pag-actual').value=state.libro.pagActual;document.getElementById('in-pag-total').value=state.libro.pagTotal;}
-  document.getElementById('setup-banner').classList.remove('hidden');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function actualizarPag(){
-  const v=Number(document.getElementById('in-pag-nueva').value);
-  if(!v||v<0)return;
-  if(state.libro)state.libro.pagActual=v;
-  document.getElementById('in-pag-nueva').value='';
-  save();render();
-}
-function terminarLibro(){
-  if(!state.libro)return;
-  if(!confirm('¿Terminaste "'+state.libro.titulo+'"?'))return;
-  state.historial.unshift({titulo:state.libro.titulo,autor:state.libro.autor,mes:todayStr().slice(0,7)});
-  state.libro=null;save();render();
-  document.getElementById('setup-banner').classList.remove('hidden');
-}
-
-/* HOY */
-function marcarHoy(){
-  const hechoHoy=!!state.dias[todayStr()];
-  if(hechoHoy){delete state.dias[todayStr()];}
-  else{
-    const pags=Number(document.getElementById('in-pags-hoy').value)||1;
-    state.dias[todayStr()]=pags;
-    if(state.libro)state.libro.pagActual=(state.libro.pagActual||0)+pags;
-  }
-  save();render();
-}
-
-/* FOTO */
-function comprimirFoto(file, maxWidth=1200, quality=0.85){
-  return new Promise((resolve)=>{
-    const reader=new FileReader();
-    reader.onload=e=>{
-      const img=new Image();
-      img.onload=()=>{
-        const canvas=document.createElement('canvas');
-        let w=img.width,h=img.height;
-        if(w>maxWidth){h=Math.round(h*maxWidth/w);w=maxWidth;}
-        canvas.width=w;canvas.height=h;
+// ===== CLOUDINARY =====
+async function subirFoto(file){
+  const formData = new FormData();
+  // Comprimir antes de subir
+  const blob = await new Promise(res => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w=img.width, h=img.height;
+        if(w>1200){ h=Math.round(h*1200/w); w=1200; }
+        canvas.width=w; canvas.height=h;
         canvas.getContext('2d').drawImage(img,0,0,w,h);
-        canvas.toBlob(blob=>resolve(blob),'image/jpeg',quality);
+        canvas.toBlob(b => res(b), 'image/jpeg', 0.82);
       };
-      img.src=e.target.result;
+      img.src = e.target.result;
     };
     reader.readAsDataURL(file);
   });
+  formData.append('file', new File([blob], file.name, {type:'image/jpeg'}));
+  formData.append('upload_preset', CLOUDINARY.uploadPreset);
+  formData.append('folder','lectura');
+  const resp = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY.cloudName}/image/upload`, {method:'POST', body:formData});
+  if(!resp.ok) throw new Error('Error subiendo foto');
+  const data = await resp.json();
+  return data.secure_url;
 }
 
-function previewFoto(ev){
-  const f=ev.target.files[0];if(!f)return;
-  fotoTempBase64=null;fotoTempUrl=null;
-  // Preview local inmediato
-  const reader=new FileReader();
-  reader.onload=e=>{
-    fotoTempBase64=e.target.result; // solo para preview
-    const img=document.getElementById('foto-preview');
-    img.src=fotoTempBase64;img.classList.remove('hidden');
-    document.getElementById('foto-clear').classList.remove('hidden');
+// ===== SETUP / LIBRO =====
+function guardarSetup(){
+  const titulo = document.getElementById('in-titulo').value.trim();
+  if(!titulo){ alert('Ponele un título'); return; }
+  state.libro = {
+    titulo, autor: document.getElementById('in-autor').value.trim(),
+    pagActual: Number(document.getElementById('in-pag-actual').value)||0,
+    pagTotal: Number(document.getElementById('in-pag-total').value)||0
   };
-  reader.readAsDataURL(f);
-  // Guardar el file para subir a Cloudinary al guardar
-  previewFoto._file=f;
+  save(); render();
 }
+
+function abrirConfig(){
+  if(state.libro){
+    document.getElementById('in-titulo').value = state.libro.titulo;
+    document.getElementById('in-autor').value = state.libro.autor;
+    document.getElementById('in-pag-actual').value = state.libro.pagActual;
+    document.getElementById('in-pag-total').value = state.libro.pagTotal;
+  }
+  document.getElementById('setup-banner').classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function actualizarPag(){
+  const v = Number(document.getElementById('in-pag-nueva').value);
+  if(!v||v<0) return;
+  if(state.libro) state.libro.pagActual = v;
+  document.getElementById('in-pag-nueva').value = '';
+  save(); render();
+}
+
+function terminarLibro(){
+  if(!state.libro) return;
+  if(!confirm('¿Terminaste "'+state.libro.titulo+'"?')) return;
+  state.historial.unshift({titulo:state.libro.titulo, autor:state.libro.autor, mes:todayStr().slice(0,7)});
+  state.libro = null;
+  save(); render();
+  document.getElementById('setup-banner').classList.remove('hidden');
+}
+
+function marcarHoy(){
+  const hechoHoy = !!state.dias[todayStr()];
+  if(hechoHoy){ delete state.dias[todayStr()]; }
+  else{
+    const pags = Number(document.getElementById('in-pags-hoy').value)||1;
+    state.dias[todayStr()] = pags;
+    if(state.libro) state.libro.pagActual = (state.libro.pagActual||0) + pags;
+  }
+  save(); render();
+}
+
+// ===== CITAS =====
+async function guardarCita(){
+  const texto = document.getElementById('in-cita').value.trim();
+  const file = fotoFile;
+  if(!texto && !file){ alert('Escribí algo o subí una foto'); return; }
+  const btn = document.getElementById('btn-guardar-cita');
+  btn.textContent = 'Subiendo...'; btn.disabled = true;
+  let fotoUrl = null;
+  if(file){
+    try{ fotoUrl = await subirFoto(file); }
+    catch(e){ alert('Error subiendo la foto. Revisá tu conexión.'); btn.textContent='Guardar'; btn.disabled=false; return; }
+  }
+  const cita = { texto, pag: document.getElementById('in-cita-pag').value.trim(), libro: state.libro?.titulo||'', fecha: todayStr(), foto: fotoUrl||null };
+  try{
+    const ref = await addDoc(collection(db,'lectura_citas'), cita);
+    citas.unshift({id:ref.id,...cita});
+  }catch(e){ citas.unshift(cita); }
+  document.getElementById('in-cita').value = '';
+  document.getElementById('in-cita-pag').value = '';
+  clearFoto();
+  btn.textContent = 'Guardar'; btn.disabled = false;
+  renderCitas();
+}
+
+async function borrarCita(id){
+  if(!confirm('¿Borrar esta entrada?')) return;
+  try{ await deleteDoc(doc(db,'lectura_citas',id)); }catch(e){}
+  citas = citas.filter(c => c.id !== id);
+  renderCitas();
+}
+
 function clearFoto(){
-  fotoTempBase64=null;fotoTempUrl=null;previewFoto._file=null;
+  fotoFile = null;
   document.getElementById('foto-preview').classList.add('hidden');
   document.getElementById('foto-clear').classList.add('hidden');
-  document.getElementById('in-foto-upload').value='';
-}
-function openLightbox(src){
-  document.getElementById('lightbox-img').src=src;
-  document.getElementById('lightbox').classList.add('open');
-}
-function closeLightbox(){document.getElementById('lightbox').classList.remove('open');}
-
-/* CITAS */
-async function guardarCita(){
-  const texto=document.getElementById('in-cita').value.trim();
-  const file=previewFoto._file;
-  if(!texto&&!file){alert('Escribí algo o subí una foto');return;}
-
-  // Mostrar estado de carga
-  const btn=document.querySelector('.btn-violet.btn-sm[onclick="guardarCita()"]');
-  if(btn){btn.textContent='Subiendo...';btn.disabled=true;}
-
-  let fotoUrl=null;
-  if(file){
-    try{
-      const blob=await comprimirFoto(file);
-      const compressedFile=new File([blob],file.name,{type:'image/jpeg'});
-      fotoUrl=await subirFotoCloudinary(compressedFile);
-    }catch(e){
-      alert('Error subiendo la foto. Revisá tu conexión.');
-      if(btn){btn.textContent='Guardar';btn.disabled=false;}
-      return;
-    }
-  }
-
-  const cita={texto,pag:document.getElementById('in-cita-pag').value.trim(),libro:state.libro?.titulo||'',fecha:todayStr(),foto:fotoUrl||null};
-  try{
-    const ref=await _addDoc(_col(_db,'lectura_citas'),cita);
-    state.citas.unshift({id:ref.id,...cita});
-  }catch(e){
-    state.citas.unshift(cita);
-  }
-  document.getElementById('in-cita').value='';
-  document.getElementById('in-cita-pag').value='';
-  clearFoto();
-  if(btn){btn.textContent='Guardar';btn.disabled=false;}
-  renderCitas();
-}
-async function borrarCita(id){
-  if(!confirm('¿Borrar esta entrada?'))return;
-  try{await _deleteDoc(_doc(_db,'lectura_citas',id));}catch(e){}
-  state.citas=state.citas.filter(c=>c.id!==id);
-  renderCitas();
+  document.getElementById('in-foto-upload').value = '';
 }
 
-function renderCitas(){
-  const el=document.getElementById('citas-lista');if(!el)return;
-  if(!state.citas.length){el.innerHTML='<div class="empty">Todavía no guardaste nada.</div>';return;}
-  el.innerHTML=state.citas.map((c)=>`
-    <div class="cita-item">
-      <div class="cita-body">
-        <div class="cita-bar"></div>
-        <div class="cita-content">
-          ${c.foto?`<img src="${c.foto}" class="cita-foto" onclick="openLightbox('${c.foto}')" alt="página">`:'' }
-          ${c.texto?`<div class="cita-text">${c.texto}</div>`:''}
-          <div class="cita-footer">
-            <div class="cita-ref">${c.libro||''}${c.pag?' · p.'+c.pag:''}${c.fecha?' · '+c.fecha:''}</div>
-            <button class="cita-del" onclick="borrarCita('${c.id||''}')">✕</button>
-          </div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-/* HISTORIAL */
+// ===== HISTORIAL =====
 function agregarHist(){
-  const t=document.getElementById('in-hist-t').value.trim();if(!t)return;
-  state.historial.unshift({titulo:t,autor:document.getElementById('in-hist-a').value.trim(),mes:todayStr().slice(0,7)});
-  document.getElementById('in-hist-t').value='';document.getElementById('in-hist-a').value='';
-  save();renderHist();
-}
-function renderHist(){
-  const el=document.getElementById('hist-lista');if(!el)return;
-  if(!state.historial.length){el.innerHTML='<div class="empty">Todavía ninguno — viene.</div>';return;}
-
-  // Agrupar por año
-  const porAnio={};
-  state.historial.forEach((l,i)=>{
-    const anio=l.mes?l.mes.slice(0,4):'Sin año';
-    if(!porAnio[anio]) porAnio[anio]=[];
-    porAnio[anio].push({...l,_idx:i});
-  });
-
-  el.innerHTML=Object.entries(porAnio).sort((a,b)=>b[0].localeCompare(a[0])).map(([anio,libros])=>`
-    <div style="margin-bottom:18px">
-      <div style="font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--violet);font-family:var(--font-mono);letter-spacing:0.06em;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
-        ${anio} <span style="font-size:10px;color:var(--muted2);font-weight:400;">${libros.length} libro${libros.length!==1?'s':''}</span>
-      </div>
-      ${libros.map((l)=>`
-        <div class="hist-item">
-          <div class="hist-num">${libros.indexOf(l)+1}</div>
-          <div class="hist-info"><div class="hist-titulo">${l.titulo}</div><div class="hist-autor">${l.autor||''}</div></div>
-          <div class="hist-mes">${fmtMes(l.mes)}</div>
-        </div>
-      `).join('')}
-    </div>
-  `).join('');
+  const t = document.getElementById('in-hist-t').value.trim();
+  if(!t) return;
+  state.historial.unshift({ titulo:t, autor:document.getElementById('in-hist-a').value.trim(), mes:todayStr().slice(0,7) });
+  document.getElementById('in-hist-t').value = '';
+  document.getElementById('in-hist-a').value = '';
+  save(); renderHist();
 }
 
-/* RACHAS */
+// ===== BACKUP =====
+async function descargarBackup(){
+  try{
+    const estadoDoc = await getDoc(doc(db,'lectura','estado'));
+    const citasSnap = await getDocs(collection(db,'lectura_citas'));
+    const citasData = [];
+    citasSnap.forEach(d => citasData.push({id:d.id,...d.data()}));
+    const backup = { fecha_backup: new Date().toISOString(), estado: estadoDoc.exists()?estadoDoc.data():state, citas: citasData };
+    const blob = new Blob([JSON.stringify(backup,null,2)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `lectura-backup-${todayStr()}.json`; a.click();
+  }catch(e){ alert('Error generando backup'); }
+}
+
+async function reiniciar(){
+  if(!confirm('¿Seguro? Se borra todo.')) return;
+  try{
+    await setDoc(doc(db,'lectura','estado'), {libro:null,dias:{},historial:[]});
+    const snap = await getDocs(collection(db,'lectura_citas'));
+    for(const d of snap.docs) await deleteDoc(doc(db,'lectura_citas',d.id));
+  }catch(e){}
+  localStorage.removeItem('cadena-lectura-v2');
+  state = {libro:null,dias:{},historial:[]}; citas = [];
+  render(); document.getElementById('setup-banner').classList.remove('hidden');
+}
+
+// ===== RACHAS =====
 function calcRachas(){
-  const dias=Object.keys(state.dias).filter(d=>state.dias[d]).sort();
-  if(!dias.length)return{actual:0,mejor:0,total:0};
-  let mejor=1,run=1;
+  const dias = Object.keys(state.dias).filter(d=>state.dias[d]).sort();
+  if(!dias.length) return {actual:0,mejor:0,total:0};
+  let mejor=1, run=1;
   for(let i=1;i<dias.length;i++){
-    const diff=(new Date(dias[i]+'T12:00:00')-new Date(dias[i-1]+'T12:00:00'))/86400000;
-    if(diff===1)run++;else run=1;if(run>mejor)mejor=run;
+    const diff = (new Date(dias[i]+'T12:00:00')-new Date(dias[i-1]+'T12:00:00'))/86400000;
+    if(diff===1) run++; else run=1; if(run>mejor) mejor=run;
   }
-  const s=new Set(dias);let actual=0,cur=new Date(todayStr()+'T12:00:00');
-  if(!s.has(todayStr()))cur.setDate(cur.getDate()-1);
-  while(s.has(cur.toISOString().slice(0,10))){actual++;cur.setDate(cur.getDate()-1);}
-  return{actual,mejor,total:dias.length};
+  const s=new Set(dias); let actual=0, cur=new Date(todayStr()+'T12:00:00');
+  if(!s.has(todayStr())) cur.setDate(cur.getDate()-1);
+  while(s.has(cur.toISOString().slice(0,10))){ actual++; cur.setDate(cur.getDate()-1); }
+  return {actual,mejor,total:dias.length};
 }
-function paginasMes(){const m=todayStr().slice(0,7);return Object.entries(state.dias).filter(([d])=>d.startsWith(m)).reduce((a,[,v])=>a+v,0);}
+
+function paginasMes(){
+  const m=todayStr().slice(0,7);
+  return Object.entries(state.dias).filter(([d])=>d.startsWith(m)).reduce((a,[,v])=>a+v,0);
+}
 
 function renderChain(){
   const c=document.getElementById('chain-container');
@@ -577,104 +482,76 @@ function renderChain(){
   const s=new Set(Object.keys(state.dias).filter(d=>state.dias[d]));
   let html='';
   for(let i=55;i>=0;i--){
-    const d=new Date(hoy);d.setDate(d.getDate()-i);
+    const d=new Date(hoy); d.setDate(d.getDate()-i);
     const ds=d.toISOString().slice(0,10);
     let cls='link';
-    if(s.has(ds))cls+=' done';
-    else if(ds===todayStr())cls+=' today';
-    else if(d<hoy)cls+=' miss';
+    if(s.has(ds)) cls+=' done';
+    else if(ds===todayStr()) cls+=' today';
+    else if(d<hoy) cls+=' miss';
     html+=`<div class="${cls}"></div>`;
   }
   c.innerHTML=html;
-  const start=new Date(hoy);start.setDate(start.getDate()-55);
+  const start=new Date(hoy); start.setDate(start.getDate()-55);
   document.getElementById('chain-start').textContent=start.toLocaleDateString('es-AR',{day:'2-digit',month:'short'});
 }
 
-async function descargarBackup(){
-  try{
-    // Traer todo de Firebase
-    const estadoDoc=await _getDoc(_doc(_db,'lectura','estado'));
-    const citasSnap=await _getDocs(_col(_db,'lectura_citas'));
-    const citas=[];
-    citasSnap.forEach(d=>citas.push({id:d.id,...d.data()}));
-    const backup={
-      fecha_backup: new Date().toISOString(),
-      estado: estadoDoc.exists()?estadoDoc.data():state,
-      citas
-    };
-    const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;
-    a.download=`lectura-backup-${todayStr()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }catch(e){
-    // Fallback: backup del estado local
-    const blob=new Blob([JSON.stringify({fecha_backup:new Date().toISOString(),estado:state,citas:state.citas||[]},null,2)],{type:'application/json'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;
-    a.download=`lectura-backup-${todayStr()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+function renderCitas(){
+  const el=document.getElementById('citas-lista'); if(!el) return;
+  if(!citas.length){ el.innerHTML='<div class="empty">Todavía no guardaste nada.</div>'; return; }
+  el.innerHTML=citas.map(c=>`
+    <div class="cita-item">
+      <div class="cita-body">
+        <div class="cita-bar"></div>
+        <div class="cita-content">
+          ${c.foto?`<img src="${c.foto}" class="cita-foto" onclick="window._lightbox('${c.foto}')" alt="página">`:''}
+          ${c.texto?`<div class="cita-text">${c.texto}</div>`:''}
+          <div class="cita-footer">
+            <div class="cita-ref">${c.libro||''}${c.pag?' · p.'+c.pag:''}${c.fecha?' · '+c.fecha:''}</div>
+            <button class="cita-del" onclick="window._borrarCita('${c.id||''}')">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
 }
 
-async function reiniciar(){
-  if(!confirm('¿Seguro? Se borra todo.'))return;
-  try{
-    await _setDoc(_doc(_db,'lectura','estado'),{libro:null,dias:{},historial:[]});
-    const snap=await _getDocs(_col(_db,'lectura_citas'));
-    for(const d of snap.docs) await _deleteDoc(_doc(_db,'lectura_citas',d.id));
-  }catch(e){}
-  localStorage.removeItem(KEY);
-  state={libro:null,dias:{},citas:[],historial:[]};
-  render();
-  document.getElementById('setup-banner').classList.remove('hidden');
+function renderHist(){
+  const el=document.getElementById('hist-lista'); if(!el) return;
+  if(!state.historial.length){ el.innerHTML='<div class="empty">Todavía ninguno — viene.</div>'; return; }
+  const porAnio={};
+  state.historial.forEach((l,i)=>{ const a=l.mes?l.mes.slice(0,4):'?'; if(!porAnio[a]) porAnio[a]=[]; porAnio[a].push({...l,_i:i}); });
+  el.innerHTML=Object.entries(porAnio).sort((a,b)=>b[0].localeCompare(a[0])).map(([anio,libros])=>`
+    <div style="margin-bottom:16px">
+      <div style="font-family:var(--font-mono);font-size:11px;color:var(--violet);letter-spacing:0.06em;margin-bottom:8px">${anio} <span style="color:var(--muted2);font-weight:400">${libros.length} libro${libros.length!==1?'s':''}</span></div>
+      ${libros.map((l,i)=>`<div class="hist-item"><div class="hist-num">${i+1}</div><div class="hist-info"><div class="hist-titulo">${l.titulo}</div><div class="hist-autor">${l.autor||''}</div></div><div class="hist-mes">${fmtMes(l.mes)}</div></div>`).join('')}
+    </div>`).join('');
 }
 
-/* RENDER */
 function render(){
-  const tiene=!!state.libro;
-  document.getElementById('setup-banner').classList.toggle('hidden',tiene);
-  document.getElementById('hero-section').classList.toggle('hidden',!tiene);
-  document.getElementById('main-grid').classList.toggle('hidden',!tiene);
-  document.getElementById('citas-section').classList.toggle('hidden',!tiene);
+  const tiene = !!state.libro;
+  document.getElementById('setup-banner').classList.toggle('hidden', tiene);
+  document.getElementById('hero-section').classList.toggle('hidden', !tiene);
+  document.getElementById('main-grid').classList.toggle('hidden', !tiene);
+  document.getElementById('citas-section').classList.toggle('hidden', !tiene);
 
-  // Título dinámico = nombre del libro
-  const headerTitulo=document.getElementById('header-titulo');
-  const headerSub=document.getElementById('header-sub');
-  if(state.libro){
-    headerTitulo.textContent=state.libro.titulo;
-    headerSub.textContent=state.libro.autor||'';
-  }else{
-    headerTitulo.textContent='Lectura';
-    headerSub.textContent='configurá tu libro';
-  }
+  const titulo = state.libro?.titulo || 'Lectura';
+  document.getElementById('header-titulo').textContent = titulo;
+  document.getElementById('header-sub').textContent = state.libro ? (state.libro.autor||'') : 'configurá tu libro';
 
-  const r=calcRachas();
-  const pill=document.getElementById('status-pill');
-  if(!tiene){pill.className='status-pill';document.getElementById('status-text').textContent='sin configurar';}
-  else if(r.actual>0){pill.className='status-pill active';document.getElementById('status-text').textContent='cadena activa';}
-  else{pill.className='status-pill';document.getElementById('status-text').textContent='retomá hoy';}
+  const r = calcRachas();
+  const pill = document.getElementById('status-pill');
+  if(!tiene){ pill.className='status-pill'; document.getElementById('status-text').textContent='sin configurar'; }
+  else if(r.actual>0){ pill.className='status-pill active'; document.getElementById('status-text').textContent='cadena activa'; }
+  else{ pill.className='status-pill'; document.getElementById('status-text').textContent='retomá hoy'; }
 
-  if(!tiene)return;
+  if(!tiene) return;
 
-  const l=state.libro;
-  document.getElementById('disp-titulo').textContent=l.titulo;
-  document.getElementById('disp-autor').textContent=l.autor||'';
-  document.getElementById('disp-pag').textContent=l.pagActual;
-  document.getElementById('disp-total').textContent=l.pagTotal||'?';
-  const pct=l.pagTotal>0?Math.min(100,Math.round(l.pagActual/l.pagTotal*100)):0;
-  document.getElementById('disp-pct').textContent=pct+'%';
-  document.getElementById('disp-barra').style.width=pct+'%';
+  const l = state.libro;
+  document.getElementById('disp-titulo').textContent = l.titulo;
+  document.getElementById('disp-autor').textContent = l.autor||'';
+  document.getElementById('disp-pag').textContent = l.pagActual;
+  document.getElementById('disp-total').textContent = l.pagTotal||'?';
+  const pct = l.pagTotal>0 ? Math.min(100,Math.round(l.pagActual/l.pagTotal*100)) : 0;
+  document.getElementById('disp-pct').textContent = pct+'%';
+  document.getElementById('disp-barra').style.width = pct+'%';
 
-  const hechoHoy=!!state.dias[todayStr()];
-  const btn=document.getElementById('btn-hoy');
-  document.getElementById('hoy-done-display').classList.toggle('hidden',!hechoHoy);
-  document.getElementById('hoy-input-section').classList.toggle('hidden',hechoHoy);
-  document.getElementById('hoy-box').classList.toggle('done',hechoHoy);
-  btn.textContent=hechoHoy?'Hecho ✓ (tocá para deshacer)':'Marcar día ✓';
-  btn.classList.toggle('done',hechoHoy);
-  if(hechoHoy)document.getElementById('hoy-num').innerHTML=state.dias[todayStr()]+'<span>pági
+  const hechoHo
