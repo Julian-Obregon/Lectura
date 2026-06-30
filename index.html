@@ -554,4 +554,64 @@ function render(){
   document.getElementById('disp-pct').textContent = pct+'%';
   document.getElementById('disp-barra').style.width = pct+'%';
 
-  const hechoHo
+  const hechoHoy = !!state.dias[todayStr()];
+  document.getElementById('hoy-done-display').classList.toggle('hidden', !hechoHoy);
+  document.getElementById('hoy-input-section').classList.toggle('hidden', hechoHoy);
+  document.getElementById('hoy-box').classList.toggle('done', hechoHoy);
+  document.getElementById('btn-hoy').textContent = hechoHoy ? 'Hecho ✓ (tocá para deshacer)' : 'Marcar día ✓';
+  document.getElementById('btn-hoy').classList.toggle('done', hechoHoy);
+  if(hechoHoy) document.getElementById('hoy-num').innerHTML = state.dias[todayStr()]+'<span>páginas leídas hoy</span>';
+
+  const note = document.getElementById('hoy-note');
+  if(r.actual===0&&r.total>0) note.textContent='Se cortó la cadena. Empezás una nueva hoy.';
+  else if(r.actual>0) note.textContent='Vas bien. No dejes pasar dos días seguidos.';
+  else note.textContent='El primer día es hoy.';
+
+  document.getElementById('streak-num').innerHTML = r.actual+'<span>días seguidos sin cortar</span>';
+  document.getElementById('s-racha').textContent = r.actual;
+  document.getElementById('s-mejor').textContent = r.mejor;
+  document.getElementById('s-total').textContent = r.total;
+  document.getElementById('s-pags').textContent = paginasMes();
+
+  renderChain(); renderCitas(); renderHist();
+}
+
+// ===== EVENTOS =====
+document.getElementById('btn-activar').onclick = guardarSetup;
+document.getElementById('btn-editar-libro').onclick = abrirConfig;
+document.getElementById('btn-actualizar').onclick = actualizarPag;
+document.getElementById('btn-termine').onclick = terminarLibro;
+document.getElementById('btn-hoy').onclick = marcarHoy;
+document.getElementById('btn-guardar-cita').onclick = guardarCita;
+document.getElementById('btn-agregar-hist').onclick = agregarHist;
+document.getElementById('btn-backup').onclick = descargarBackup;
+document.getElementById('btn-reiniciar').onclick = reiniciar;
+
+document.getElementById('in-foto-upload').onchange = ev => {
+  const f = ev.target.files[0]; if(!f) return;
+  fotoFile = f;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('foto-preview');
+    img.src = e.target.result; img.classList.remove('hidden');
+    document.getElementById('foto-clear').classList.remove('hidden');
+  };
+  reader.readAsDataURL(f);
+};
+document.getElementById('foto-clear').onclick = clearFoto;
+document.getElementById('lightbox').onclick = () => document.getElementById('lightbox').classList.remove('open');
+
+// Exponer funciones que se llaman desde HTML inline (citas)
+window._lightbox = src => { document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').classList.add('open'); };
+window._borrarCita = borrarCita;
+
+// Service Worker
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(e=>console.log('SW:',e)));
+}
+
+// Arrancar
+cargar();
+</script>
+</body>
+</html>
