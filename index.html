@@ -247,6 +247,17 @@ footer{text-align:center;margin-top:32px;}
 
 <div class="lightbox" id="lightbox"><img id="lightbox-img" src="" alt="foto ampliada"></div>
 
+<!-- MODAL FOTOS DE LIBRO -->
+<div id="modal-libro" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:999;overflow-y:auto;padding:20px;">
+  <div style="max-width:600px;margin:0 auto;background:var(--surface);border-radius:16px;padding:24px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div style="font-family:var(--font-display);font-size:17px;font-weight:700;" id="modal-libro-titulo">—</div>
+      <button onclick="document.getElementById('modal-libro').style.display='none'" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;">✕</button>
+    </div>
+    <div id="modal-citas-lista"></div>
+  </div>
+</div>
+
 <footer>
   <span class="footer-link" id="btn-backup">⬇ descargar backup</span>
   <span class="footer-link" id="btn-reiniciar">reiniciar todos los datos</span>
@@ -274,7 +285,13 @@ let state = { libro:null, dias:{}, historial:[] };
 let citas = [];
 let fotoFile = null;
 
-function todayStr(){ return new Date().toISOString().slice(0,10); }
+function todayStr(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
 function fmtMes(m){ if(!m)return''; const[y,mo]=m.split('-'); const ms=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']; return ms[Number(mo)-1]+' '+y; }
 
 // ===== FIREBASE =====
@@ -497,8 +514,14 @@ function renderChain(){
 
 function renderCitas(){
   const el=document.getElementById('citas-lista'); if(!el) return;
-  if(!citas.length){ el.innerHTML='<div class="empty">Todavía no guardaste nada.</div>'; return; }
-  el.innerHTML=citas.map(c=>`
+  // Solo mostrar citas del libro actual
+  const libroActual = state.libro?.titulo||'';
+  const citasLibroActual = libroActual ? citas.filter(c=>c.libro===libroActual) : citas;
+  if(!citasLibroActual.length){ 
+    el.innerHTML='<div class="empty">Todavía no guardaste nada de este libro.</div>'; 
+    return; 
+  }
+  el.innerHTML=citasLibroActual.map(c=>`
     <div class="cita-item">
       <div class="cita-body">
         <div class="cita-bar"></div>
@@ -506,8 +529,27 @@ function renderCitas(){
           ${c.foto?`<img src="${c.foto}" class="cita-foto" onclick="window._lightbox('${c.foto}')" alt="página">`:''}
           ${c.texto?`<div class="cita-text">${c.texto}</div>`:''}
           <div class="cita-footer">
-            <div class="cita-ref">${c.libro||''}${c.pag?' · p.'+c.pag:''}${c.fecha?' · '+c.fecha:''}</div>
+            <div class="cita-ref">${c.pag?'p.'+c.pag:''}${c.fecha?' · '+c.fecha:''}</div>
             <button class="cita-del" onclick="window._borrarCita('${c.id||''}')">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderCitasDeLibro(tituloLibro){
+  const el=document.getElementById('modal-citas-lista'); if(!el) return;
+  const citasLibro = citas.filter(c=>c.libro===tituloLibro);
+  if(!citasLibro.length){ el.innerHTML='<div class="empty">No guardaste frases ni fotos de este libro.</div>'; return; }
+  el.innerHTML=citasLibro.map(c=>`
+    <div class="cita-item">
+      <div class="cita-body">
+        <div class="cita-bar"></div>
+        <div class="cita-content">
+          ${c.foto?`<img src="${c.foto}" class="cita-foto" onclick="window._lightbox('${c.foto}')" alt="página">`:''}
+          ${c.texto?`<div class="cita-text">${c.texto}</div>`:''}
+          <div class="cita-footer">
+            <div class="cita-ref">${c.pag?'p.'+c.pag:''}${c.fecha?' · '+c.fecha:''}</div>
           </div>
         </div>
       </div>
@@ -518,11 +560,21 @@ function renderHist(){
   const el=document.getElementById('hist-lista'); if(!el) return;
   if(!state.historial.length){ el.innerHTML='<div class="empty">Todavía ninguno — viene.</div>'; return; }
   const porAnio={};
-  state.historial.forEach((l,i)=>{ const a=l.mes?l.mes.slice(0,4):'?'; if(!porAnio[a]) porAnio[a]=[]; porAnio[a].push({...l,_i:i}); });
+  state.historial.forEach((l)=>{ const a=l.mes?l.mes.slice(0,4):'?'; if(!porAnio[a]) porAnio[a]=[]; porAnio[a].push(l); });
   el.innerHTML=Object.entries(porAnio).sort((a,b)=>b[0].localeCompare(a[0])).map(([anio,libros])=>`
     <div style="margin-bottom:16px">
       <div style="font-family:var(--font-mono);font-size:11px;color:var(--violet);letter-spacing:0.06em;margin-bottom:8px">${anio} <span style="color:var(--muted2);font-weight:400">${libros.length} libro${libros.length!==1?'s':''}</span></div>
-      ${libros.map((l,i)=>`<div class="hist-item"><div class="hist-num">${i+1}</div><div class="hist-info"><div class="hist-titulo">${l.titulo}</div><div class="hist-autor">${l.autor||''}</div></div><div class="hist-mes">${fmtMes(l.mes)}</div></div>`).join('')}
+      ${libros.map((l,i)=>{
+        const tieneCitas=citas.some(c=>c.libro===l.titulo);
+        return `<div class="hist-item" style="cursor:${tieneCitas?'pointer':'default'}" onclick="${tieneCitas?`window._verCitasLibro('${l.titulo.replace(/'/g,"\\'")}')`:''}" title="${tieneCitas?'Ver frases y fotos':''}">
+          <div class="hist-num">${i+1}</div>
+          <div class="hist-info"><div class="hist-titulo">${l.titulo}</div><div class="hist-autor">${l.autor||''}</div></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${tieneCitas?`<span style="font-size:10px;color:var(--violet);font-family:var(--font-mono)">📷 ver</span>`:''}
+            <div class="hist-mes">${fmtMes(l.mes)}</div>
+          </div>
+        </div>`;
+      }).join('')}
     </div>`).join('');
 }
 
@@ -604,6 +656,11 @@ document.getElementById('lightbox').onclick = () => document.getElementById('lig
 // Exponer funciones que se llaman desde HTML inline (citas)
 window._lightbox = src => { document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').classList.add('open'); };
 window._borrarCita = borrarCita;
+window._verCitasLibro = titulo => {
+  document.getElementById('modal-libro-titulo').textContent = titulo;
+  renderCitasDeLibro(titulo);
+  document.getElementById('modal-libro').style.display = 'block';
+};
 
 // Service Worker
 if('serviceWorker' in navigator){
